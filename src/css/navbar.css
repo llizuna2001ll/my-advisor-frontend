@@ -1,0 +1,53 @@
+.nav-logo{
+    font-weight: bolder;
+    margin-right: 10px;
+    margin-top: 7px;
+    margin-left: 7px;
+}
+.navigation-container{
+    background: url(../../public/images/auth-image-bg.jpg);
+    height: 90px;
+    padding-left: 10px;
+    box-shadow: 0 15px 15px -15px rgba(0,0,0,.2);
+
+}
+
+.search-bar{
+    width: 700px;
+    margin-left: 300px;
+}
+
+.search-input{
+    padding-right: 52px;
+}
+
+.search-input:focus{
+    box-shadow: none;
+    outline: none;
+    border: none;
+}
+
+.search-button{
+    margin-left: -55px;
+    padding-top: 10px;
+    background-color: #675E6D;
+    border: none;
+    border-radius: 0 8px 8px 0;
+
+}
+
+.search-button:hover{
+    animation: color-change-3x 1s linear infinite alternate both;
+}
+
+@keyframes color-change-3x {
+    0% {
+        background: #675E6D;
+    }
+    50% {
+        background: #443E48;
+    }
+    100% {
+        background: #443E48;
+    }
+}
