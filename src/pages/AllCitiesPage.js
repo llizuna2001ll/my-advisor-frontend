@@ -16,7 +16,6 @@ function AllCitiesPage() {
         .then(response => response.json())
         .then(data => {
             setCities(data);
-            console.log(cities);
         })
         .catch(error => console.error(error));
 
@@ -31,7 +30,7 @@ function AllCitiesPage() {
                 <div className=" container mt-5">
                     <div style={{marginLeft:"150px"}} className="row justify-content-center mb-2 mt-3">
                     {cities.map((city, index)=>
-                            <div className="card allcities-container">
+                            <div key={city.cityId} className="card allcities-container">
                                 <Link style={{fontSize:"30px", textDecoration:"none"}} to={`/cities/${city.name.toLowerCase()}`}><div  className="card-body"><img style={{opacity: "100%"}} className="topcities-img" height="100px" width="20%" src={city.imgPath}/> {city.name}</div></Link>
                             </div>
                 )}
