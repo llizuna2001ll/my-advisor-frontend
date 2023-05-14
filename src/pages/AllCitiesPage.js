@@ -19,21 +19,20 @@ function AllCitiesPage() {
         })
         .catch(error => console.error(error));
 
+        const allCities = cities.map((city, index)=>
+                <div key={city.cityId} className="card allcities-container">
+                    <Link style={{fontSize:"30px", textDecoration:"none"}} to={`/cities/${city.name}`}><div  className="card-body"><img style={{opacity: "100%"}} className="topcities-img" height="100px" width="20%" src={city.imgPath}/> {city.name}</div></Link>
+                    <p>{city.businessCount} business available</p>
+                </div>
+            );
     return(
         <>
-
-
-
             <Navigation/>
             <div className=" container mt-5">
                 <h2 className="fw-bold">All cities</h2>
                 <div className=" container mt-5">
                     <div style={{marginLeft:"150px"}} className="row justify-content-center mb-2 mt-3">
-                    {cities.map((city, index)=>
-                            <div key={city.cityId} className="card allcities-container">
-                                <Link style={{fontSize:"30px", textDecoration:"none"}} to={`/cities/${city.name.toLowerCase()}`}><div  className="card-body"><img style={{opacity: "100%"}} className="topcities-img" height="100px" width="20%" src={city.imgPath}/> {city.name}</div></Link>
-                            </div>
-                )}
+                        {allCities}
                     </div>
                 </div>
             </div>

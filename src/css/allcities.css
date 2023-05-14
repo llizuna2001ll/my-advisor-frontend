@@ -7,3 +7,7 @@
     border: transparent solid 1px;
     transition: .5s ease-in-out;
 }
+
+.allcities-container img{
+    border-radius: 5px;
+}

@@ -1,7 +1,6 @@
 .topcities-img {
     object-fit: cover;
     opacity: 70%;
-    border-radius: 5px;
 }
 
 
@@ -9,16 +8,12 @@
     background-color: black;
     padding: 0;
     margin-right: 7px;
-    border-radius: 5px;
     text-align: center;
-    box-shadow: 1px 39px 95px -53px rgba(0, 0, 0, 0.54);
-    -webkit-box-shadow: 1px 39px 95px -1px rgba(0,0,0,0.54);
-    -moz-box-shadow: 1px 39px 95px -1px rgba(0,0,0,0.54);
-    transition: .4s ease-in-out;
+    border: 2px solid white;
+    position: relative;
 }
 .topcities-filter:hover{
-    scale: 105%;
-    z-index: 100;
+    border: 2px solid #A58BD5;
 }
 .upper-topcities-name{
     position: absolute;
@@ -28,3 +23,8 @@
     margin-left: 10px;
 }
 
+.top-business-rating{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
