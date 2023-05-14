@@ -1,18 +1,26 @@
 import '../css/navbar.css';
+import {Link} from "react-router-dom";
 
 function Navigation() {
 
     return (
-        <nav className="navbar navbar-expand-sm navigation-container text-center">
+        <nav style={{color:"white"}} className="navbar navbar-expand-sm navigation-container navbar-light text-center">
             <div className="nav-logo">
                 <h3>MyAdvisor.com</h3>
             </div>
-            <form className="d-flex search-bar">
-                <input className="form-control col-8 me-2 search-input" type="text" placeholder="Search"/>
-                <button className="btn btn-primary search-button" type="button">
-                        <span className="material-symbols-outlined">search</span>
-                </button>
-            </form>
+            <ul style={{color:"white",marginTop:"5px",marginLeft:"22%"}} className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li  className="nav-item">
+                    <Link style={{color:"white"}} className="nav-link navitem" to="/cities">Cities</Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link style={{color:"white"}} className="nav-link" to="/businesses">Businesses</Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link style={{color:"white"}} className="nav-link" to="/categories">Categories</Link>
+                </li>
+            </ul>
             <div className="container-fluid d-flex flex-row-reverse">
                 <a className="navbar-brand">
                     <img src="../images/img_avatar1.png" alt="Avatar Logo" width="40px" className="rounded-pill"/>
