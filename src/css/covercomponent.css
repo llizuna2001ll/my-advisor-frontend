@@ -3,6 +3,7 @@
     width:100%;
     background-color: #114A79;
     position: relative;
+    box-shadow: inset 0px 10px 17px -12px rgba(85, 85, 85, 0.60);
 }
 
 .cover-container img{
@@ -57,5 +58,5 @@
 }
 
 .search-button:hover{
-    animation: color-change-3x 1s linear infinite alternate both;
+    animation: background-color-change-3x 2s linear infinite alternate both;
 }

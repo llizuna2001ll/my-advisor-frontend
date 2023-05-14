@@ -14,11 +14,11 @@ function Navigation() {
                 </li>
 
                 <li className="nav-item">
-                    <Link style={{color:"white"}} className="nav-link" to="/businesses">Businesses</Link>
+                    <Link style={{color:"white"}} className="nav-link navitem" to="/businesses">Businesses</Link>
                 </li>
 
                 <li className="nav-item">
-                    <Link style={{color:"white"}} className="nav-link" to="/categories">Categories</Link>
+                    <Link style={{color:"white"}} className="nav-link navitem" to="/categories">Categories</Link>
                 </li>
             </ul>
             <div className="container-fluid d-flex flex-row-reverse">

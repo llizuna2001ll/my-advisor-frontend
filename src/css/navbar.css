@@ -8,22 +8,33 @@
     background: #00AAFF;
     height: 90px;
     padding-left: 10px;
-    box-shadow: 0 15px 8px -8px rgb(0, 0, 0);
 }
 
 .navitem:hover{
-
+    animation: fonts-change-3x 2s linear infinite alternate both;
 }
 
 
-@keyframes color-change-3x {
+@keyframes background-color-change-3x {
     0% {
-        background: #675E6D;
+        background: #114A79;
     }
     50% {
-        background: #443E48;
+        background: rgb(9, 53, 93);
     }
     100% {
-        background: #443E48;
+        background: #114a79;
+    }
+}
+
+@keyframes fonts-color-change-3x {
+    0% {
+        color: #114A79;
+    }
+    50% {
+        color: rgb(9, 53, 93);
+    }
+    100% {
+        color: #114a79;
     }
 }
