@@ -3,6 +3,7 @@
 }
 
 .allcities-container{
+    background-color: #F8F8F8;
     width: 50%;
     border: transparent solid 1px;
     transition: .5s ease-in-out;

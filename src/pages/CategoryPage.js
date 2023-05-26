@@ -1,19 +1,20 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
-import Navigation from "../components/Navigation";
-import '../css/cityPage.css';
-import FilterBar from "../components/FilterBar";
+import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Breadcrumbs, Chip, Grid, Rating} from "@mui/material";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Navigation from "../components/Navigation";
+import FilterBar from "../components/FilterBar";
+import FilterForCategory from "../components/FilterForCategory";
 
-function CityPage() {
+function CategoryPage() {
+
     const token = localStorage.getItem('token');
-    let {city} = useParams();
-    city = city.charAt(0).toUpperCase() + city.slice(1);
+    let {category} = useParams();
+    category = category.charAt(0).toUpperCase() + category.slice(1);
     const [businesses, setBusinesses] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8888/api/v1/users/findBusinessByCity/' + city, {
+        fetch('http://localhost:8888/api/v1/users/findBusinessByBusinessType/' + category, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -26,10 +27,10 @@ function CityPage() {
                 console.log(businesses);
             })
             .catch(error => console.error(error));
-    }, [city]);
+    }, [category]);
 
-    const showFilter = (rating, businessTypes) => {
-        fetch('http://localhost:8888/api/v1/users/filterBusiness?rating=' + rating + '&businessTypes=' + businessTypes + '&city=' + city, {
+    const showFilter = (rating, selectedCity) => {
+            fetch('http://localhost:8888/api/v1/users/filterBusiness?rating=' + rating + '&businessTypes=' + category + '&city=' + selectedCity, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -42,7 +43,6 @@ function CityPage() {
                 console.log(businesses);
             })
             .catch(error => console.error(error));
-
     };
     const allBusinesses = businesses.map((business)=>
         <div key={business.accountId} className="business-container">
@@ -72,21 +72,20 @@ function CityPage() {
     return (
         <>
             <Navigation/>
-
             <section className="hero-section">
                 <div className="city-hero">
-                    <img className="hero-img" src={'../images/cities/' + city.toLowerCase() + '.jpg'}/>
-                    <h1 className="cityDescription">{city}</h1>
+                    <img className="hero-img" src={'../images/businessTypes/' + category.toLowerCase() + '.jpg'}/>
+                    <h1 className="cityDescription">{category}</h1>
                 </div>
             </section>
             <Breadcrumbs style={{marginLeft:"45%",marginTop:"20px"}} separator="›" aria-label="breadcrumb">
                 <Link to="/">Home</Link>
-                <Link to="/cities">Cities</Link>
-                <Link style={{color:"black",textDecoration:"none",cursor:"default"}}>{city}</Link>
+                <Link to="/categories">Categories</Link>
+                <Link style={{color:"black",textDecoration:"none",cursor:"default"}}>{category}</Link>
             </Breadcrumbs>
             <div className="mt-2 mb-2">
                 <Grid container>
-                    <FilterBar isSelectActive={false} filterValues={showFilter}/>
+                    <FilterForCategory isSelectActive={true} filterValues={showFilter}/>
                     <div className="w-75 businesses-wrapper">
                         {allBusinesses}
                     </div>
@@ -97,4 +96,4 @@ function CityPage() {
     );
 }
 
-export default CityPage;
+export default CategoryPage;

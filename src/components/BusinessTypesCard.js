@@ -22,8 +22,8 @@ function BusinessTypesCard() {
         .catch(error => console.error(error));
 
     const allBusinessTypes = businessTypes.map((businessType, index) =>
-        <Link style={{color: "black", textDecoration: "none"}}
-              to={"/businessTypes/" + businessType.typeName.toLowerCase()}><ListItem>
+        <Link key={businessType.typeId} style={{color: "black", textDecoration: "none"}}
+              to={"/categories/" + businessType.typeName}><div className="card-hover"><ListItem>
             <div>   
                 <img className="rounded-pill" src={businessType.imgPath}/>
             </div>
@@ -33,7 +33,7 @@ function BusinessTypesCard() {
             <div>
                 <ArrowForwardIosIcon className="ms-5 mt-1"/>
             </div>
-        </ListItem><Divider/></Link>
+        </ListItem><Divider/></div></Link>
     );
     return (
         <Stack className="business-types-container pt-3 pb-1" direction="column"

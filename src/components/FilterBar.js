@@ -1,22 +1,31 @@
 import '../css/filterBar.css';
-import {Rating} from "@mui/material";
+import {Alert, Button, Collapse, Rating} from "@mui/material";
 import {useEffect, useState} from "react";
 
-function FilterBar({filterValues}, {isSelectActive}) {
+function FilterBar(props) {
     const token = localStorage.getItem('token');
     const [rating, setRating] = useState(0);
     let [businessTypes, setBusinessTypes] = useState([]);
     const [types, setTypes] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
+    const [open, setOpen] = useState(false);
+
     const filter = async (event) => {
         event.preventDefault();
+        console.log(selectedCity)
         if(businessTypes.length === 0){
             types.map((type, index)=>
                 businessTypes[index] = type.typeName
             );
         }
-        filterValues(rating,businessTypes,selectedCity);
+        if (selectedCity === "" || selectedCity == "City") {
+            setOpen(true);
+        }
+        else{
+            setOpen(false);
+            props.filterValues(rating,businessTypes,selectedCity);
+        }
     }
 
     function handleCityChange(event) {
@@ -73,35 +82,50 @@ function FilterBar({filterValues}, {isSelectActive}) {
     const options = cities.map((city, index)=>
         <option key={city.cityId}>{city.name}</option>
     );
-    return (
-        <div className="filter-bar-container">
-            <form onSubmit={filter}>
-            <h4 className="pt-3 ps-3">Type</h4>
-            <div className="ps-5">
-                {checkBoxes}
-            </div>
-            <h4 className="pt-3 ps-3">Filter city</h4>
-            <div className="d-flex ps-5">
-                <select disabled={!isSelectActive} value={selectedCity} onChange={handleCityChange} className="form-select w-75">
-                    <option>City</option>
-                    {options}
-                </select>
-            </div>
-            <h4 className="pt-3 ps-3">Rating</h4>
-            <div className="d-flex justify-content-start ps-5">
-                <Rating
-                    name="simple-controlled"
-                    value={rating}
-                    onChange={(event, newValue) => {
-                        setRating(newValue);
-                    }}
-                />
-            </div>
-            <button className="confirmFilter">show results</button>
-            </form>
-        </div>
 
-    );
+
+      return(
+          <div className="filter-bar-container">
+              <form onSubmit={filter}>
+                  <h4 className="pt-3 ps-3">Type</h4>
+                  <div className="ps-5">
+                      {checkBoxes}
+                  </div>
+                  <h4 className="pt-3 ps-3">Filter city</h4>
+                  <div className="d-flex ps-5">
+                      <select disabled={!props.isSelectActive} value={selectedCity} onChange={handleCityChange} className="form-select w-75">
+                          <option>City</option>
+                          {options}
+                      </select>
+                  </div>
+                  <Collapse in={open}>
+                      <Alert severity="error" style={{position: "absolute", top: "0"}}
+                             action={
+                                 <Button onClick={() => {
+                                     setOpen(false);
+                                 }} color="inherit" size="small">
+                                     UNDO
+                                 </Button>
+                             }
+                      >
+                          Please Select a city Before filtering!
+                      </Alert>
+                  </Collapse>
+                  <h4 className="pt-3 ps-3">Rating</h4>
+                  <div className="d-flex justify-content-start ps-5">
+                      <Rating
+                          name="simple-controlled"
+                          value={rating}
+                          onChange={(event, newValue) => {
+                              setRating(newValue);
+                          }}
+                      />
+                  </div>
+                  <button className="confirmFilter">Filter Businesses</button>
+              </form>
+          </div>
+      );
+
 }
 
 export default FilterBar;

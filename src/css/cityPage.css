@@ -12,7 +12,7 @@
     display: block;
     margin: auto;
     width: 100%;
-    height: 40vh;
+    height: 30vh;
     object-fit: cover;
     object-position: 0 -300px;
     opacity: 40%;
@@ -59,6 +59,12 @@
     background-color: white;
     box-shadow:  0 0 5px rgba(134, 106, 176, 0.41);
     position: relative;
+    transition: .8s;
+}
+
+.business-unlike{
+    transform: translateX(-1500px);
+    opacity: 0;
 }
 
 .business-image{

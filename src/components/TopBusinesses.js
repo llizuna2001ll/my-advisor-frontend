@@ -21,7 +21,7 @@ function TopBusinesses() {
         .catch(error => console.error(error));
 
     const businesses = topBusinesses.map((topBusiness, index) =>
-        <div className="col-md-5 topcities-filter mb-2"><Link to={"/businesses/"+topBusiness.username}>
+        <div key={topBusiness.accountId} className="col-md-5 topcities-filter mb-2"><Link to={"/businesses/"+topBusiness.username}>
             <img className="topcities-img" height="250px" width="100%" src={topBusiness.profileImgPath}/>
             <h2 className="upper-topcities-name">{topBusiness.username}</h2>
             <Chip className="top-business-rating" label={topBusiness.rating} color="success"/>

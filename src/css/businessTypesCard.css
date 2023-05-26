@@ -23,3 +23,28 @@
     min-width: 150px;
 }
 
+.card-hover{
+    background-color: transparent;
+    width: 92%;
+    z-index: 2;
+    margin-left: 15px;
+    transition: width;
+}
+
+.card-hover:hover{
+    animation: width-progress 1s infinite ease-in-out;
+}
+
+@keyframes width-progress {
+    0% {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    100%{
+        background-color: transparent;
+    }
+}

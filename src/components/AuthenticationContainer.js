@@ -52,6 +52,25 @@ function AuthenticationContainer() {
 
     };
 
+    const addToLocalStorage = (username) => {
+        fetch('http://localhost:8888/api/v1/users/' + username , {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                localStorage.setItem("profileImg", data.profileImgPath);
+                localStorage.setItem("email", data.email);
+                localStorage.setItem("accountId", data.accountId);
+
+            })
+            .catch(error => console.error(error));
+
+    };
+
     const handleSignIn = async (event) => {
         event.preventDefault();
         if (signInPassword.length === 0 || signInUsername.length === 0) {
@@ -69,6 +88,7 @@ function AuthenticationContainer() {
                     const authoritiesArray = decodedToken.authorities.map((auth) => auth.authority);
                     localStorage.setItem('authorities', JSON.stringify(authoritiesArray));
                     setSignInError("login successful");
+                    addToLocalStorage(localStorage.getItem("username"));
                     navigate("/");
                 })
                 .catch(error => {
