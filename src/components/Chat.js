@@ -1,4 +1,4 @@
-import {Button, Divider, Grid, IconButton, Stack, TextField} from "@mui/material";
+import {Grid, IconButton, Stack, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
@@ -9,21 +9,36 @@ function Chat(props) {
     const userFrom = props.userFrom;
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [scrolling, setScrolling] = useState(true);
 
 
     const token = localStorage.getItem("token");
 
 
+    function handleScroll() {
+        setScrolling(false);
+    }
+
+
     useEffect(() => {
-        if(!isLoading) {
+        if (scrolling) {
+            if (!isLoading) {
+                const myDiv = document.getElementById('chat-messages');
+                myDiv.scrollTop = myDiv.scrollHeight;
+            }
+        }
+    }, [messages])
+
+    useEffect(() => {
+        if (!isLoading) {
             const myDiv = document.getElementById('chat-messages');
             myDiv.scrollTop = myDiv.scrollHeight;
         }
-    },[messages])
+    }, [messages])
 
     useEffect(() => {
         if (userFrom) {
-            fetch(
+            fetch(  
                 "http://localhost:8888/api/v1/conversations/messages/" +
                 username +
                 "/" +
@@ -38,12 +53,11 @@ function Chat(props) {
                 .then((response) => response.json())
                 .then((data) => {
                     setMessages(data);
-                    console.log(messages);
                 })
                 .catch((error) => console.error(error))
                 .finally(() => setIsLoading(false));
         }
-    }, [userFrom]);
+    }, [messages, userFrom]);
 
     let allMessages = messages.map((message) => {
         if (message.sender === username) {
@@ -66,33 +80,67 @@ function Chat(props) {
 
     });
 
-    function sendMessage() {
-        const url =
-            "http://localhost:8888/api/v1/conversations/addMessage/" +
+    function refreshChat() {
+        fetch(
+            "http://localhost:8888/api/v1/conversations/messages/" +
             username +
             "/" +
-            userFrom;
-        let message = inputValue;
-        let sender = username;
-        const data = {sender, message};
-        axios
-            .post(url, data, {
+            userFrom,
+            {
                 headers: {
                     Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
                 },
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                setMessages(data);
             })
-            .then((response) => {
-                console.log(response.data);
-                setInputValue('');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => console.error(error))
+            .finally(() => setIsLoading(false));
     }
+
+    function sendMessage() {
+        if (inputValue !== "") {
+            const url =
+                "http://localhost:8888/api/v1/conversations/addMessage/" +
+                username +
+                "/" +
+                userFrom;
+            let message = inputValue;
+            let sender = username;
+            const data = {sender, message};
+            axios
+                .post(url, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    setInputValue('');
+                    axios.post('http://localhost:8888/api/v1/conversations/unreadMessage/' + props.conversationId, null, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then((response) => {
+                        })
+                        .catch(error => console.error(error))
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => refreshChat());
+        }
+    }
+
 
     return (
 
-        <div className="chat-container">
+        <div className="chat-container" onScroll={handleScroll}>
             <Stack>
                 <div className="chat-header">
                     <Grid container>
@@ -117,6 +165,11 @@ function Chat(props) {
                             variant="filled"
                             type="text"
                             value={inputValue}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    sendMessage();
+                                }
+                            }}
                             onChange={(e) => setInputValue(e.target.value)}
                             className="message-input"
                             placeholder="Type a message..."

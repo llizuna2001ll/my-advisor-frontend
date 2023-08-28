@@ -11,6 +11,9 @@ import BusinessPage from "./pages/BusinessPage";
 import AllBusinesses from "./pages/AllBusinesses";
 import FavoritesPage from "./pages/FavoritesPage";
 import MessagesPage from "./pages/MessagesPage";
+import UserPage from "./pages/UserPage";
+import AdminAuthPage from "./pages/AdminAuthPage";
+import RatingPage from "./pages/RatingPage";
 
 
 function App() {
@@ -20,6 +23,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/auth" element={<AuthPage/>}/>
+                        <Route path="/admin" element={<AdminAuthPage/>}/>
                         <Route path="/" element={<HomePage/>}/>
                         <Route path={"/cities"} element={<AllCitiesPage/>}/>
                         <Route path="/cities/:city" element={<CityPage/>}/>
@@ -28,7 +32,9 @@ function App() {
                         <Route path="/categories/:category" element={<CategoryPage/>}/>
                         <Route path="/businesses" element={<AllBusinesses/>}/>
                         <Route path="/businesses/:business" element={<BusinessPage/>}/>
+                        <Route path="/users/:user" element={<UserPage/>}/>
                         <Route path="/messages" element={<MessagesPage/>}/>
+                        <Route path="/businesses/:business/:reviewId" element={<RatingPage/>}/>
                     </Routes>
                 </BrowserRouter>
             </>

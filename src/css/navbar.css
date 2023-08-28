@@ -25,7 +25,7 @@
 .dropdown{
    list-style: none;
     display: flex;
-    margin-left: 300px;
+    margin-left: 25%;
 }
 
 .dropdown li{

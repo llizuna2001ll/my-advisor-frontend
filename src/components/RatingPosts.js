@@ -37,13 +37,19 @@ function RatingPosts(props) {
                     <img className="post-profile-pic shadow-1-strong" src={post.user.profileImgPath + ".jpg"} alt="profile-img"/>
                     <Stack>
                         <p className="fw-bolder ms-2 mt-1 text-primary">{post.accountUsername}</p>
-                        <p style={{marginTop: "-15px"}} className="ms-2 text-muted small"> 1h</p>
+                        <p style={{marginTop: "-15px"}} className="ms-2 text-muted small"> {new Date(post.postDate).toLocaleString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                        })}</p>
                     </Stack>
                     {/*<MoreHorizIcon style={{marginLeft: "700px"}} className="mt-3"/>*/}
                 </Grid>
                 <Stack className="mt-3">
                     <Grid className="ms-2" container>
-                        <Link style={{textDecoration: "none"}}><h4 className="">{post.postTitle}</h4>
+                        <Link to={"/businesses/"+props.businessName+"/"+post.postId} style={{textDecoration: "none"}}><h4 className="">{post.postTitle}</h4>
                         </Link>
                         <Rating className="ms-2 mt-1" name="read-only" style={post.postRating >= 4 ? {color: "#2E7D32"} : post.postRating >= 3 && post.postRating < 4 ? {color: "#ED6C02"} : {color:"#D32F2F"} }
                                 value={post.postRating} precision={0.5}
@@ -57,14 +63,13 @@ function RatingPosts(props) {
         </div>
     );
 
-
     return (
         <>
             <div className="posts-container">
                 <Stack>
                     <AddReview businessName={props.businessName}/>
 
-                    <div className="posts d-flex justify-content-center">
+                    <div className="posts d-flex flex-column-reverse justify-content-center">
                         {isLoading ? (
                             <>
                                 <Stack style={{marginBottom:"50px"}}>

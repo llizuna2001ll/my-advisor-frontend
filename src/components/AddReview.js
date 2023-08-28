@@ -3,7 +3,8 @@ import {Alert, Button, Collapse, Input, Rating} from "@mui/material";
 import {Modal} from "react-bootstrap";
 import axios from "axios";
 
-function AddReview(props) {
+function
+AddReview(props) {
     const [show, setShow] = useState(false);
     const [rating, setRating] = useState(0);
     const [ratingDescription, setRatingDescription] = useState('');
