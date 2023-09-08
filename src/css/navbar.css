@@ -32,6 +32,46 @@
     margin-left: 20px;
 }
 
+.notifications-container{
+    position: absolute;
+    margin-top: 15%;
+    width: 150%;
+    border-radius: 5px;
+    margin-left: -40%;
+    background: #ffffff;
+    color: black;
+    max-height: 45vh;
+    text-align: left;
+    padding-top: 10px;
+    overflow-y: scroll;
+    box-shadow: 2px -3px 47px -10px rgba(0,0,0,0.48);
+    -webkit-box-shadow: 2px -3px 47px -10px rgba(0,0,0,0.48);
+    -moz-box-shadow: 2px -3px 47px -10px rgba(0,0,0,0.48);
+}
+
+.notifications-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.notifications-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.21);
+    border-radius: 5px;
+}
+
+.notification-container{
+    text-align: left;
+    padding: 5px 20px;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.notification-container p{
+    margin-left: 5%;
+}
+
+
+
 @keyframes background-color-change-3x {
     0% {
         background: #114A79;

@@ -13,14 +13,10 @@ function FilterBar(props) {
 
     const filter = async (event) => {
         event.preventDefault();
-        console.log(selectedCity)
         if(businessTypes.length === 0){
             types.map((type, index)=>
                 businessTypes[index] = type.typeName
             );
-        }
-        if (selectedCity === "" || selectedCity == "City") {
-            setOpen(true);
         }
         else{
             setOpen(false);
@@ -28,7 +24,7 @@ function FilterBar(props) {
         }
     }
 
-    function handleCityChange(event) {
+    function handleCityChange(event){
         setSelectedCity(event.target.value);
     }
 
@@ -69,7 +65,7 @@ function FilterBar(props) {
                 setCities(data);
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [cities.length]);
 
     const checkBoxes = types.map((type, index)=>
         <div key={type.typeId} className="form-check">

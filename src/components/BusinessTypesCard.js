@@ -2,29 +2,31 @@ import "../css/businessTypesCard.css";
 import {Divider, ListItem, Stack} from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {Link, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function BusinessTypesCard() {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
     const [businessTypes, setBusinessTypes] = useState([]);
 
-    fetch('http://localhost:8888/api/v1/businessTypes', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (response.status === 401) {
-                navigate('/auth');
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/businessTypes', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-            return response.json()
         })
-        .then(data => {
-            setBusinessTypes(data.slice(0, 5));
-        })
-        .catch(error => console.error(error));
+            .then(response => {
+                if (response.status === 401) {
+                    navigate('/auth');
+                }
+                return response.json()
+            })
+            .then(data => {
+                setBusinessTypes(data.slice(0, 5));
+            })
+            .catch(error => console.error(error));
+    },[businessTypes.length]);
 
     const allBusinessTypes = businessTypes.map((businessType, index) =>
         <Link key={businessType.typeId} style={{color: "black", textDecoration: "none"}}

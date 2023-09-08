@@ -1,25 +1,26 @@
 import {Link} from "react-router-dom";
 import Navigation from "../components/Navigation";
 import '../css/allcities.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Breadcrumbs} from "@mui/material";
 
 function AllCitiesPage() {
 
     const token = localStorage.getItem('token');
     const [cities, setCities] = useState([]);
-
-    fetch('http://localhost:8888/api/v1/cities', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            setCities(data);
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/cities', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         })
-        .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(data => {
+                setCities(data);
+            })
+            .catch(error => console.error(error));
+    },[cities.length]);
 
     const allCities = cities.map((city, index) =>
         <div key={city.cityId} className="card allcities-container">
@@ -37,7 +38,7 @@ function AllCitiesPage() {
             <div className=" container mt-5">
                 <Breadcrumbs separator="›" aria-label="breadcrumb">
                     <Link to="/">Home</Link>
-                    <Link style={{color:"black",textDecoration:"none",cursor:"default"}}>Cities</Link>
+                    <Link style={{color: "black", textDecoration: "none", cursor: "default"}}>Cities</Link>
                 </Breadcrumbs>
                 <h2 className="fw-bold mt-3">All cities</h2>
                 <div className=" container mt-5">

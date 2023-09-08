@@ -1,25 +1,25 @@
 import '../css/topcities.css';
 import {Link, Route} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Chip} from "@mui/material";
 
 function TopBusinesses() {
 
     const token = localStorage.getItem('token');
     const [topBusinesses, setTopBusinesses] = useState([]);
-
-    fetch('http://localhost:8888/api/v1/users/topBusinesses', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            setTopBusinesses(data);
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/users/topBusinesses', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         })
-        .catch(error => console.error(error));
-
+            .then(response => response.json())
+            .then(data => {
+                setTopBusinesses(data);
+            })
+            .catch(error => console.error(error));
+    },[topBusinesses.length]);
     const businesses = topBusinesses.map((topBusiness, index) =>
         <div key={topBusiness.accountId} className="col-md-5 topcities-filter mb-2"><Link to={"/businesses/"+topBusiness.username}>
             <img className="topcities-img" height="250px" width="100%" src={topBusiness.profileImgPath}/>

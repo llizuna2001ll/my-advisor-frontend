@@ -12,7 +12,8 @@
 
 .posts-container {
     position: relative;
-    width: 73%;
+    width: 100%;
+
 }
 
 .posts-container Button{
@@ -30,6 +31,8 @@
     padding-right: 50px;
     display: flex;
     flex-direction: column;
+    height: 70vh;
+    overflow-y: scroll;
 }
 
 .post{

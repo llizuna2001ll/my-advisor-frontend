@@ -1,22 +1,23 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 function Carousel() {
 
     const token = localStorage.getItem('token');
     const [cities, setCities] = useState([]);
-
-    fetch('http://localhost:8888/api/v1/cities', {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            setCities(data.slice(0, 3));
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/cities', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         })
-        .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(data => {
+                setCities(data.slice(0, 3));
+            })
+            .catch(error => console.error(error));
+    },[cities.length]);
 
     const carouselItems = cities.map((city, index) =>
         <div key={city.cityId} className="carousel-item active">

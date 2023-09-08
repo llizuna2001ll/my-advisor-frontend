@@ -1,7 +1,6 @@
-import {Accordion, AccordionDetails, AccordionSummary, Alert, Collapse, Grid} from "@mui/material";
+import {Alert, Collapse, Grid} from "@mui/material";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import AddCommentIcon from "@mui/icons-material/AddComment";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -51,10 +50,27 @@ function AddComment(props) {
             }
         })
             .then(response => {
-
+                    if (true) {
+                        if (!props.isLiked) {
+                            const userFrom = accountUsername;
+                            const username = props.username;
+                            const notificationObject = userFrom + " has liked your review on " + props.business + " page";
+                            axios.post('http://localhost:8888/api/v1/notifications/addNotification', {
+                                postId,
+                                username,
+                                notificationObject,
+                                userFrom
+                            }, {
+                                headers: {
+                                    Authorization: `Bearer ${jwtToken}`
+                                }
+                            }).then(response => console.log(response)).catch(e => console.log(e))
+                        }
+                    }
                 }
             )
             .catch(error => {
+                console.log(error)
             })
             .finally(() => {
                 axios.post('http://localhost:8888/api/v1/users/likePost', {postId, username}, {
@@ -100,26 +116,26 @@ function AddComment(props) {
                     Reply Submitted Successfully!
                 </Alert>
             </Collapse>
-                <Grid className="ms-2 mt-2" container>
-                    {liked ? (
-                        <ThumbUpAltIcon
-                            onClick={likePost}
-                            style={{cursor: 'pointer', marginTop: '10px'}}
-                            id="likeIcon"
-                            className="text-primary heart-animation"
-                            fontSize="large"
-                        />
-                    ) : (
-                        <ThumbUpOffAltIcon
-                            onClick={likePost}
-                            style={{cursor: 'pointer', marginTop: '10px'}}
-                            className="text-primary heart-animation"
-                            id="likeIcon"
-                            fontSize="large"
-                        />
-                    )}
-                    <p style={{marginTop: '19px'}} className=" ms-1  text-muted">{props.likesCount}</p>
-                </Grid>
+            <Grid className="ms-2 mt-2" container>
+                {liked ? (
+                    <ThumbUpAltIcon
+                        onClick={likePost}
+                        style={{cursor: 'pointer', marginTop: '10px'}}
+                        id="likeIcon"
+                        className="text-primary heart-animation"
+                        fontSize="large"
+                    />
+                ) : (
+                    <ThumbUpOffAltIcon
+                        onClick={likePost}
+                        style={{cursor: 'pointer', marginTop: '10px'}}
+                        className="text-primary heart-animation"
+                        id="likeIcon"
+                        fontSize="large"
+                    />
+                )}
+                <p style={{marginTop: '19px'}} className=" ms-1  text-muted">{props.likesCount}</p>
+            </Grid>
         </>
     );
 }

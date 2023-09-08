@@ -1,18 +1,58 @@
 import {
-    Grid,
+    Alert,
+    Button, Collapse,
+    Grid, IconButton,
     Rating, Skeleton,
     Stack
 } from "@mui/material";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import FlagIcon from '@mui/icons-material/Flag';
 import AddReview from "./AddReview";
 import AddComment from "./AddComment";
 import {Link} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {Tooltip} from "@mui/material";
+import Modal from 'react-bootstrap/Modal';
+import axios from "axios";
 
 function RatingPosts(props) {
     const token = localStorage.getItem("token");
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [reportReason, setReportReason] = useState('');
+    const [postId, setPostId] = useState();
+    const [show, setShow] = React.useState(false);
+    const [openCommentError, setOpenCommentError] = useState(false);
+    const [openCommentSuccess, setOpenCommentSuccess] = useState(false);
+    const handleOpenReportModal = (id) => {
+        setShow(true);
+        setPostId(id);
+    }
+    const handleCloseReportModal = () => setShow(false);
+
+    const SubmitReport = () => {
+        if (reportReason !== "") {
+            const reason = reportReason;
+            const reporter = localStorage.getItem('username');
+
+            const url = `http://localhost:8888/api/v1/posts/reportPost/${postId}`;
+            const data = { reporter, reason };
+            axios.post(url, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then(response => {
+                    setReportReason('');
+                    setOpenCommentSuccess(true);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            setOpenCommentError(true);
+        }
+    }
+
 
     useEffect(() => {
         fetch('http://localhost:8888/api/v1/posts/byBusinessName/' + props.businessName, {
@@ -28,16 +68,18 @@ function RatingPosts(props) {
             })
             .catch(error => console.error(error))
             .finally(() => setIsLoading(false));
-    }, [posts, token, props.businessName]);
+    }, [posts]);
 
     const allPosts = posts.map((post) =>
         <div key={post.postId} className="post card">
             <div className="card-body">
                 <Grid className="mt-2" container>
-                    <img className="post-profile-pic shadow-1-strong" src={post.user.profileImgPath + ".jpg"} alt="profile-img"/>
+                    <img className="post-profile-pic shadow-1-strong" src={post.user.profileImgPath + ".jpg"}
+                         alt="profile-img"/>
                     <Stack>
                         <p className="fw-bolder ms-2 mt-1 text-primary">{post.accountUsername}</p>
-                        <p style={{marginTop: "-15px"}} className="ms-2 text-muted small"> {new Date(post.postDate).toLocaleString("en-GB", {
+                        <p style={{marginTop: "-15px"}}
+                           className="ms-2 text-muted small"> {new Date(post.postDate).toLocaleString("en-GB", {
                             day: "2-digit",
                             month: "2-digit",
                             year: "numeric",
@@ -45,20 +87,29 @@ function RatingPosts(props) {
                             minute: "2-digit",
                         })}</p>
                     </Stack>
-                    {/*<MoreHorizIcon style={{marginLeft: "700px"}} className="mt-3"/>*/}
+
+
+                    <IconButton onClick={() => handleOpenReportModal(post.postId)} className="add-review-button"
+                                style={{marginLeft: "48vw", cursor: "pointer"}} aria-label="delete">
+                        <Tooltip disableFocusListener title="Report This Review"><FlagIcon color={'error'}/></Tooltip>
+                    </IconButton>
+
                 </Grid>
                 <Stack className="mt-3">
                     <Grid className="ms-2" container>
-                        <Link to={"/businesses/"+props.businessName+"/"+post.postId} style={{textDecoration: "none"}}><h4 className="">{post.postTitle}</h4>
+                        <Link to={"/businesses/" + props.businessName + "/" + post.postId}
+                              style={{textDecoration: "none"}}><h4 className="">{post.postTitle}</h4>
                         </Link>
-                        <Rating className="ms-2 mt-1" name="read-only" style={post.postRating >= 4 ? {color: "#2E7D32"} : post.postRating >= 3 && post.postRating < 4 ? {color: "#ED6C02"} : {color:"#D32F2F"} }
+                        <Rating className="ms-2 mt-1" name="read-only"
+                                style={post.postRating >= 4 ? {color: "#2E7D32"} : post.postRating >= 3 && post.postRating < 4 ? {color: "#ED6C02"} : {color: "#D32F2F"}}
                                 value={post.postRating} precision={0.5}
                                 readOnly/>
                     </Grid>
                     <p className="post-description">{post.postDescription}</p>
                 </Stack>
             </div>
-            <AddComment postId={post.postId} isLiked={post.likes.find(like => like.username === localStorage.getItem("username"))}
+            <AddComment username={post.accountUsername} postId={post.postId} business={post.businessName}
+                        isLiked={post.likes.find(like => like.username === localStorage.getItem("username"))}
                         likesCount={post.likes.length}/>
         </div>
     );
@@ -72,7 +123,7 @@ function RatingPosts(props) {
                     <div className="posts d-flex flex-column-reverse justify-content-center">
                         {isLoading ? (
                             <>
-                                <Stack style={{marginBottom:"50px"}}>
+                                <Stack style={{marginBottom: "50px"}}>
                                     <Grid container>
                                         <Skeleton style={{marginLeft: "30px", marginTop: "23px"}} variant="circular"
                                                   width={70} height={70}/>
@@ -93,7 +144,7 @@ function RatingPosts(props) {
                                     </Grid>
                                 </Stack>
 
-                                <Stack style={{marginBottom:"50px"}}>
+                                <Stack style={{marginBottom: "50px"}}>
                                     <Grid container>
                                         <Skeleton style={{marginLeft: "30px", marginTop: "23px"}} variant="circular"
                                                   width={70} height={70}/>
@@ -120,6 +171,55 @@ function RatingPosts(props) {
                     </div>
                 </Stack>
             </div>
+
+            <Modal style={{marginTop:'20vh'}} show={show} onHide={handleCloseReportModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Report post</Modal.Title>
+                </Modal.Header>
+                <Collapse in={openCommentError}>
+                    <Alert severity="error"
+                           action={
+                               <div onClick={() => {
+                                   setOpenCommentError(false);
+                               }} color="inherit" size="small" className="fw-bolder mt-1" style={{cursor: "pointer"}}>
+                                   UNDO
+                               </div>
+                           }
+                    >
+                        Specify A Reason Before Submitting!
+                    </Alert>
+                </Collapse>
+                <Collapse in={openCommentSuccess}>
+                    <Alert severity="success"
+                           action={
+                               <div onClick={() => {
+                                   setOpenCommentSuccess(false);
+                               }} color="inherit" size="small" className="fw-bolder mt-1" style={{cursor: "pointer"}}>
+                                   UNDO
+                               </div>
+                           }
+                    >
+                        Report Submitted Successfully!
+                    </Alert>
+                </Collapse>
+                <Modal.Body>
+                    <div className="mb-3">
+                        <label htmlFor="title" className="form-label fw-bolder">Reason</label>
+                        <textarea placeholder="Specify the reason for this report" className="form-control"
+                                  id="reportReason"
+                                  rows="3" value={reportReason}
+                                  onChange={(e) => setReportReason(e.target.value)}></textarea>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseReportModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" className="bg-primary text-white" onClick={SubmitReport}>
+                        Submit Report
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 }

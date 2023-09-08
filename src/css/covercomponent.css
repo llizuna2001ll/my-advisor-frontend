@@ -6,7 +6,7 @@
     box-shadow: inset 0px 10px 17px -12px rgba(85, 85, 85, 0.60);
 }
 
-.cover-container img{
+.cover-container .cover-pic{
     width: 100%;
     height: 285px;
     object-fit: cover;
@@ -18,7 +18,7 @@
     position: absolute;
     color: white;
     top: 100px;
-    left: 34%;
+    left: 35vw;
     font-weight: bold;
     font-family: 'Montserrat', 'Arial', 'sans-serif';
 }
@@ -26,10 +26,10 @@
 .search-container{
     position: absolute;
     bottom: 50px;
-    left: 33%;
+    left: 35vw;
     background-color: #FFFFFF;
     padding: 10px 10px;
-    border-radius: 50px;
+    border-radius: 20px 20px 0px 0px;
     box-shadow: 3px 4px 6px 0px rgba(0, 0, 0, 0.2);
 }
 
@@ -60,4 +60,37 @@
 
 .search-button:hover{
     animation: background-color-change-3x 2s linear infinite alternate both;
+}
+
+.search-results{
+    position: absolute;
+    z-index: 1000;
+    background-color: #F4F4F4;
+    width: 100%;
+    margin-left: -2.4%;
+    margin-top: 1%;
+    padding: 5px;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: 5px 69px 38px 62px rgba(0,0,0,0.16);
+    -webkit-box-shadow: 5px 69px 38px 62px rgba(0,0,0,0.16);
+    -moz-box-shadow: 5px 69px 38px 62px rgba(0,0,0,0.16);
+}
+
+.flex{
+    display: flex;
+}
+
+.result{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 15px 5px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.result:hover{
+    background-color: #e0dbdb;
+}
+.result p {
+    font-weight: bold;
 }

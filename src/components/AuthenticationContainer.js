@@ -37,6 +37,7 @@ function AuthenticationContainer() {
                     localStorage.setItem('username', decodedToken.sub);
                     const authoritiesArray = decodedToken.authorities.map((auth) => auth.authority);
                     localStorage.setItem('authorities', JSON.stringify(authoritiesArray));
+                    navigate("/continue-signup")
                 })
                 .catch(error => {
                     if (error.response && error.response.data) {
@@ -89,7 +90,12 @@ function AuthenticationContainer() {
                     localStorage.setItem('authorities', JSON.stringify(authoritiesArray));
                     setSignInError("login successful");
                     addToLocalStorage(localStorage.getItem("username"));
-                    navigate("/");
+                    if(authoritiesArray.includes("ADMIN")){
+                        navigate("/dashboard");
+                    }
+                    else{
+                        navigate("/");
+                    }
                 })
                 .catch(error => {
                     if (error.response && error.response.data) {

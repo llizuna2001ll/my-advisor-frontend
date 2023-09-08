@@ -39,10 +39,8 @@ function CityPage() {
             .then(data => {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
                 setBusinesses(data)
-                console.log(businesses);
             })
             .catch(error => console.error(error));
-
     };
     const allBusinesses = businesses.map((business)=>
         <div key={business.accountId} className="business-container">
