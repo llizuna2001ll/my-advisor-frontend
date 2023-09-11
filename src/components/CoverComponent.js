@@ -47,8 +47,13 @@ function CoverComponent() {
     useEffect(() => {
 
         AWS.config.update({
+<<<<<<< HEAD
             accessKeyId: 'AKIAQ4ELPGT74IUCUIRO',
             secretAccessKey: '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',
+=======
+            accessKeyId: '**********************************',
+            secretAccessKey: '************************************',
+>>>>>>> 1cbd4b7b09c4517c61a9d7df048fcce378d8b33c
             region: 'eu-north-1',
         });
 

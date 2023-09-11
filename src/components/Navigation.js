@@ -69,6 +69,42 @@ function Navigation() {
         }
     }
 
+<<<<<<< HEAD
+=======
+    useEffect(() => {
+
+        AWS.config.update({
+            accessKeyId: '************************',
+            secretAccessKey: '**************************',
+            region: 'eu-north-1',
+        });
+
+        const s3 = new AWS.S3();
+
+        const bucketName = 'myadvisorbucket';
+        const imageKey = localStorage.getItem('profileImg');
+
+        const getObjectUrl = async (bucketName, key) => {
+            const params = {Bucket: bucketName, Key: key};
+            try {
+                const data = await s3.getObject(params).promise();
+                return data;
+            } catch (error) {
+                console.error('Error getting S3 object:', error);
+                throw error;
+            }
+        };
+
+        getObjectUrl(bucketName, imageKey)
+            .then((data) => {
+                const imageSrc = URL.createObjectURL(new Blob([data.Body]));
+                setImgUrl(imageSrc);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, []);
+>>>>>>> 1cbd4b7b09c4517c61a9d7df048fcce378d8b33c
 
     return (
         <>
