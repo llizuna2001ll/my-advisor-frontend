@@ -1,0 +1,50 @@
+.business-types-container{
+    width: 300px;
+    margin-left: 100px;
+    margin-right: 114px;
+    background-color: #FFFFFF;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    position: relative;
+}
+.business-types-container img{
+    width: 60px;
+    height: 60px;
+}
+
+.more-categories{
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    text-decoration: underline;
+}
+
+.type-name{
+    min-width: 150px;
+}
+
+.card-hover{
+    background-color: transparent;
+    width: 92%;
+    z-index: 2;
+    margin-left: 15px;
+    transition: width;
+}
+
+.card-hover:hover{
+    animation: width-progress 1s infinite ease-in-out;
+}
+
+@keyframes width-progress {
+    0% {
+        background-color: transparent;
+    }
+
+    50% {
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+
+    100%{
+        background-color: transparent;
+    }
+}

@@ -1,0 +1,33 @@
+.visited-cities {
+    height: 80%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.visited-cities::-webkit-scrollbar {
+    width: 8px;
+}
+
+.visited-cities::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(134, 106, 176, 0.41);
+}
+
+.visited-cities::-webkit-scrollbar-thumb {
+    background: #866ab0;
+}
+
+.visited-city {
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.visited-city img {
+    border-radius: 10px;
+}
+
+.visited-city p {
+    width: 30px;
+}
