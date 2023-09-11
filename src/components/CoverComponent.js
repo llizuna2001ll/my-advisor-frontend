@@ -44,43 +44,6 @@ function CoverComponent() {
         }
     }, [searchText]);
 
-    useEffect(() => {
-
-        AWS.config.update({
-<<<<<<< HEAD
-            accessKeyId: 'AKIAQ4ELPGT74IUCUIRO',
-            secretAccessKey: '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',
-=======
-            accessKeyId: '**********************************',
-            secretAccessKey: '************************************',
->>>>>>> 1cbd4b7b09c4517c61a9d7df048fcce378d8b33c
-            region: 'eu-north-1',
-        });
-
-        const s3 = new AWS.S3();
-
-        const bucketName = 'myadvisorbucket';
-
-        const getObjectUrl = async (bucketName, key) => {
-            const params = {Bucket: bucketName, Key: key};
-            try {
-                const data = await s3.getObject(params).promise();
-                return data;
-            } catch (error) {
-                console.error('Error getting S3 object:', error);
-                throw error;
-            }
-        };
-
-        getObjectUrl(bucketName, imageKey)
-            .then((data) => {
-                const imageSrc = URL.createObjectURL(new Blob([data.Body]));
-                setImgUrl(imageSrc);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, []);
 
     const businesses = searchResults.map((business, index) => (
         <div key={business.accountId} className="result">
