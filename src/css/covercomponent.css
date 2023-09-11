@@ -94,3 +94,11 @@
 .result p {
     font-weight: bold;
 }
+
+.negative-search {
+    margin-left: 40%;
+}
+
+.negative-search p{
+    margin-left: -20%;
+}

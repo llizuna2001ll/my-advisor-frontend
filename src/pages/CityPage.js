@@ -11,6 +11,7 @@ function CityPage() {
     let {city} = useParams();
     city = city.charAt(0).toUpperCase() + city.slice(1);
     const [businesses, setBusinesses] = useState([]);
+    const [cityData, setCityData] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:8888/api/v1/users/findBusinessByCity/' + city, {
@@ -24,6 +25,21 @@ function CityPage() {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
                 setBusinesses(data);
                 console.log(businesses);
+            })
+            .catch(error => console.error(error));
+    }, [city]);
+
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/cities/' + cityData.name, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                setCityData(data);
             })
             .catch(error => console.error(error));
     }, [city]);
@@ -46,7 +62,7 @@ function CityPage() {
         <div key={business.accountId} className="business-container">
             <Grid container>
                 <div className="business-image w-25">
-                    <img src={business.profileImgPath}/>
+                    <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${business.profileImgPath}`}/>
                 </div>
                 <div className="business-info w-75">
                     <Grid container>
@@ -73,7 +89,7 @@ function CityPage() {
 
             <section className="hero-section">
                 <div className="city-hero">
-                    <img className="hero-img" src={'../images/cities/' + city.toLowerCase() + '.jpg'}/>
+                    <img className="hero-img" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${cityData.imgPath}`}/>
                     <h1 className="cityDescription">{city}</h1>
                 </div>
             </section>

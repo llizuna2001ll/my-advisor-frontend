@@ -6,9 +6,10 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import ChatIcon from "@mui/icons-material/Chat";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PersonIcon from "@mui/icons-material/Person";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Chat from "./Chat";
 import axios from "axios";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 function UserMessages() {
 
@@ -17,8 +18,8 @@ function UserMessages() {
     const [conversations, setConversations] = useState([]);
     const [messages, setMessages] = useState([]);
     const [userFrom, setUserFrom] = useState('');
+    const [userFromImg, setUserFromImg] = useState('');
     const [conversationId, setConversationId] = useState('');
-
 
     useEffect(() => {
         fetch('http://localhost:8888/api/v1/conversations/' + username, {
@@ -35,14 +36,14 @@ function UserMessages() {
             .catch(error => console.error(error))
     }, [conversations]);
 
-    function sendToChat(messages, userFrom, conversationId) {
+    function sendToChat(messages, userFrom, conversationId, userFromImg) {
 
         const elements = document.getElementsByClassName('conversation-peek');
         for (let i = 0; i < elements.length; i++) {
             elements[i].classList.remove('focused');
         }
         document.getElementById(conversationId).classList.add("focused");
-        axios.post('http://localhost:8888/api/v1/conversations/unreadMessage/' + conversationId,null, {
+        axios.post('http://localhost:8888/api/v1/conversations/unreadMessage/' + conversationId, null, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -51,7 +52,9 @@ function UserMessages() {
             .then((response) => {
                 setMessages(messages);
                 setUserFrom(userFrom);
+                setUserFromImg(userFromImg);
                 setConversationId(conversationId);
+
             })
             .catch(error => console.error(error))
     }
@@ -59,9 +62,11 @@ function UserMessages() {
 
     const allConversations = conversations.map((conversation) =>
         <div key={conversation.conversationId}
-             onClick={() => sendToChat(conversation.messages, conversation.userFrom, conversation.conversationId)}
+             onClick={() => sendToChat(conversation.messages, conversation.userFrom, conversation.conversationId, conversation.userFromEntity.profileImgPath)}
              className="conversation-peek" id={conversation.conversationId}>
-            <img className="me-4 mt-3 rounded-circle" src="../images/profilePics/izuna-test1.jpg" width="70"
+            <img className="me-4 mt-3 rounded-circle"
+                 src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${conversation.userFromEntity.profileImgPath}`}
+                 width="70"
                  height="70"/>
             <Stack className="mt-2">
                 <h4>{conversation.userFrom}</h4>
@@ -89,10 +94,29 @@ function UserMessages() {
                                                                                           fontSize="medium"/></Tooltip></Link>
                 </Grid>
                 <Stack className="mt-4">
-                    {allConversations}
+                    {allConversations.length > 0 ? (
+                        <div style={{marginTop:'50%'}}>
+                            <SentimentVeryDissatisfiedIcon fontSize='large'/>
+                            <p>Looks Like You Didn't Make Friends Yet!</p>
+                        </div>
+                    ) : (
+                        allConversations
+                    )
+                    }
                 </Stack>
             </div>
-            <Chat messages={messages} userFrom={userFrom} conversationId={conversationId}/>
+
+            {userFrom !== '' ? (
+                    <Chat messages={messages} userFrom={userFrom} conversationId={conversationId}
+                          userFromImg={userFromImg}/>
+                ) :
+                (
+                    <div className={"conversation-negative"}>
+                        <img src={"./images/icons/conversation.png"} width={"100%"} height={"100%"}/>
+                        <p>Chose a conversation</p>
+                    </div>
+                )
+            }
         </>
     );
 }

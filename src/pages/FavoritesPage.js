@@ -25,7 +25,7 @@ function FavoritesPage() {
                 setBusinesses(data);
             })
             .catch(error => console.error(error));
-    }, []);
+    }, [accountUsername, businesses, token]);
 
 
 
@@ -50,7 +50,7 @@ function FavoritesPage() {
         <div key={business.accountId} className="business-container" id={business.accountId}>
             <Grid container>
                 <div className="business-image w-25">
-                    <img src={business.profileImgPath}/>
+                    <img alt={"profile-pic"} src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${business.profileImgPath}`}/>
                 </div>
                 <div className="business-info w-75">
                     <Grid container>
@@ -80,7 +80,7 @@ function FavoritesPage() {
             <Navigation/>
             <section className="hero-section">
                 <div className="city-hero">
-                    <img className="hero-img" src={'../images/profilePics/izuna-business.jpg'}/>
+                    <img alt={"hero-pic"} className="hero-img" src={'../images/profilePics/izuna-business.jpg'}/>
                     <h1 className="cityDescription">Favorites</h1>
                 </div>
             </section>

@@ -33,7 +33,7 @@ function BusinessTypesCard() {
               to={"/categories/" + businessType.typeName}>
             <div className="card-hover"><ListItem>
                 <div>
-                    <img className="rounded-pill" src={businessType.imgPath}/>
+                    <img className="rounded-pill" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${businessType.imgPath}`}/>
                 </div>
                 <div className="type-name">
                     <h5 className=" ms-3 mt-2 ">{businessType.typeName}</h5>

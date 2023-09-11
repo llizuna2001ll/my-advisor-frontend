@@ -12,7 +12,7 @@ import AllBusinesses from "./pages/AllBusinesses";
 import FavoritesPage from "./pages/FavoritesPage";
 import MessagesPage from "./pages/MessagesPage";
 import UserPage from "./pages/UserPage";
-import AdminAuthPage from "./pages/AdminAuthPage";
+import RegisterBusiness from "./pages/RegisterBusiness";
 import Admin from "./admin/pages/home/Home";
 import List from './admin/pages/list/List';
 import Log from './admin/pages/login/Login';
@@ -32,6 +32,7 @@ import NewBusiness from "./admin/pages/newBusiness/NewBusiness";
 import "./admin/style/dark.scss";
 import SingleOthers from "./admin/components/others/SingleOthers";
 import ContinueSignUp from "./pages/ContinueSignUp";
+import ContinueBusinessSignupPage from "./pages/ContinueBusinessSignupPage";
 
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
                 <Routes>
                     <Route path="/auth" element={<AuthPage/>}/>
                     <Route path="/continue-signup" element={<ContinueSignUp/>}/>
-                    <Route path="/admin" element={<AdminAuthPage/>}/>
+                    <Route path="/register-business" element={<RegisterBusiness/>}/>
+                    <Route path="/continue-business-signup" element={<ContinueBusinessSignupPage/>}/>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path={"/cities"} element={<AllCitiesPage/>}/>
                     <Route path="/cities/:city" element={<CityPage/>}/>

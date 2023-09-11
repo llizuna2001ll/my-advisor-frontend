@@ -55,11 +55,13 @@ function AddComment(props) {
                             const userFrom = accountUsername;
                             const username = props.username;
                             const notificationObject = userFrom + " has liked your review on " + props.business + " page";
+                            const userFromImg = localStorage.getItem('profileImg');
                             axios.post('http://localhost:8888/api/v1/notifications/addNotification', {
                                 postId,
                                 username,
                                 notificationObject,
-                                userFrom
+                                userFrom,
+                                userFromImg
                             }, {
                                 headers: {
                                     Authorization: `Bearer ${jwtToken}`

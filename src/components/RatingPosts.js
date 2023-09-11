@@ -74,7 +74,7 @@ function RatingPosts(props) {
         <div key={post.postId} className="post card">
             <div className="card-body">
                 <Grid className="mt-2" container>
-                    <img className="post-profile-pic shadow-1-strong" src={post.user.profileImgPath + ".jpg"}
+                    <img className="post-profile-pic shadow-1-strong" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${post.user.profileImgPath}`}
                          alt="profile-img"/>
                     <Stack>
                         <p className="fw-bolder ms-2 mt-1 text-primary">{post.accountUsername}</p>

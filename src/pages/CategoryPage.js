@@ -12,6 +12,7 @@ function CategoryPage() {
     let {category} = useParams();
     category = category.charAt(0).toUpperCase() + category.slice(1);
     const [businesses, setBusinesses] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:8888/api/v1/users/findBusinessByBusinessType/' + category, {
@@ -25,6 +26,21 @@ function CategoryPage() {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
                 setBusinesses(data);
                 console.log(businesses);
+            })
+            .catch(error => console.error(error));
+    }, [category]);
+
+    useEffect(() => {
+        fetch('http://localhost:8888/api/v1/businessTypes/' + categoryData.typeName, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                setCategoryData(data);
             })
             .catch(error => console.error(error));
     }, [category]);
@@ -48,7 +64,7 @@ function CategoryPage() {
         <div key={business.accountId} className="business-container">
             <Grid container>
                 <div className="business-image w-25">
-                    <img src={business.profileImgPath}/>
+                    <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${business.profileImgPath}`}/>
                 </div>
                 <div className="business-info w-75">
                     <Grid container>
@@ -67,14 +83,13 @@ function CategoryPage() {
                 </div>
             </Grid>
         </div>
-
     );
     return (
         <>
             <Navigation/>
             <section className="hero-section">
                 <div className="city-hero">
-                    <img className="hero-img" src={'../images/businessTypes/' + category.toLowerCase() + '.jpg'}/>
+                    <img className="hero-img" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${categoryData.imgPath}`}/>
                     <h1 className="cityDescription">{category}</h1>
                 </div>
             </section>

@@ -15,7 +15,6 @@ function Navigation() {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem("token");
     const [notifications, setNotifications] = useState([]);
-    const [imgUrl, setImgUrl] = useState('');
     const [openNotifications, setOpenNotifications] = useState(false);
     const unseenNotifications = notifications.filter(notification => !notification.seen);
     const [latestNotificationTimestamp, setLatestNotificationTimestamp] = useState(0);
@@ -70,39 +69,6 @@ function Navigation() {
         }
     }
 
-    useEffect(() => {
-
-        AWS.config.update({
-            accessKeyId: 'AKIAQ4ELPGT7UYVJS7XZ',
-            secretAccessKey: '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',
-            region: 'eu-north-1',
-        });
-
-        const s3 = new AWS.S3();
-
-        const bucketName = 'myadvisorbucket';
-        const imageKey = localStorage.getItem('profileImg');
-
-        const getObjectUrl = async (bucketName, key) => {
-            const params = {Bucket: bucketName, Key: key};
-            try {
-                const data = await s3.getObject(params).promise();
-                return data;
-            } catch (error) {
-                console.error('Error getting S3 object:', error);
-                throw error;
-            }
-        };
-
-        getObjectUrl(bucketName, imageKey)
-            .then((data) => {
-                const imageSrc = URL.createObjectURL(new Blob([data.Body]));
-                setImgUrl(imageSrc);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }, []);
 
     return (
         <>
@@ -154,7 +120,7 @@ function Navigation() {
                                 {notifications.length > 0 ? (
                                     notifications.map((notification, index) => (
                                         <div key={notification.notificationId} className="notification-container">
-                                            <img src={imgUrl} alt="Avatar" width="40px" height="40px"
+                                            <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${notification.userFromImg}`} alt="Avatar" width="40px" height="40px"
                                                  className="rounded-pill"/>
                                             <p>{notification.notificationObject}</p>
                                         </div>
@@ -173,7 +139,7 @@ function Navigation() {
 
                 <div className="container-fluid d-flex flex-row-reverse" style={{marginTop: "20px"}}>
                     <p className="navbar-brand d-flex" id="user-bar">
-                        <img src={imgUrl} alt="Avatar" width="40px"
+                        <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${localStorage.getItem("profileImg")}`} alt="Avatar" width="40px"
                              height="40px" className="rounded-pill"/>
                     </p>
                 </div>

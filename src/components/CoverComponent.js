@@ -3,11 +3,12 @@ import React, {useEffect, useState} from "react";
 import {Chip, Skeleton} from "@mui/material";
 import AWS from "aws-sdk";
 import {Link} from "react-router-dom";
-
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 function CoverComponent() {
     const [imgUrl, setImgUrl] = useState('');
     const [searchText, setSearchText] = useState('');
+    const [imageKey, setImageKey] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [openSearch, setOpenSearch] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -18,8 +19,7 @@ function CoverComponent() {
         if (searchText !== '') {
             setOpenSearch(true);
             fetch(
-                "http://localhost:8888/api/v1/users/businesses/" +
-                searchText,
+                "http://localhost:8888/api/v1/users/businesses/" + searchText,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -29,7 +29,12 @@ function CoverComponent() {
             )
                 .then((response) => response.json())
                 .then((data) => {
-                    setSearchResults(data);
+                    // Modify the data to include imgUrl for each business
+                    const modifiedData = data.map((business) => ({
+                        ...business,
+                        imgUrl: setImageKey(business.profileImgPath),
+                    }));
+                    setSearchResults(modifiedData);
                 })
                 .catch((error) => console.error(error))
                 .finally(() => setIsLoading(false));
@@ -42,15 +47,14 @@ function CoverComponent() {
     useEffect(() => {
 
         AWS.config.update({
-            accessKeyId: 'AKIAQ4ELPGT7UYVJS7XZ',
-            secretAccessKey: '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',
+            accessKeyId: 'AKIAQ4ELPGT74IUCUIRO',
+            secretAccessKey: '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',
             region: 'eu-north-1',
         });
 
         const s3 = new AWS.S3();
 
         const bucketName = 'myadvisorbucket';
-        const imageKey = localStorage.getItem('profileImg');
 
         const getObjectUrl = async (bucketName, key) => {
             const params = {Bucket: bucketName, Key: key};
@@ -73,15 +77,17 @@ function CoverComponent() {
             });
     }, []);
 
-    const businesses = searchResults.map((business, index) =>
+    const businesses = searchResults.map((business, index) => (
         <div key={business.accountId} className="result">
             <div className="flex">
-                <img src={imgUrl} alt="Avatar" width="40px" height="40px" className="rounded-pill"/>
-                <Link to={`/businesses/${business.username}`} style={{color: "black", textDecoration: "none"}}><p className="mt-2 ms-2">{business.username}</p></Link>
+                <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${business.profileImgPath}`} alt="Avatar" width="40px" height="40px" className="rounded-pill"/>
+                <Link to={`/businesses/${business.username}`} style={{ color: "black", textDecoration: "none" }}>
+                    <p className="mt-2 ms-2">{business.username}</p>
+                </Link>
             </div>
             <Chip className="mt-1" label={business.businessType} color="primary"/>
         </div>
-    );
+    ));
 
     return (
 
@@ -98,31 +104,39 @@ function CoverComponent() {
                     </button>
                 </form>
                 {openSearch && (
-                    !isLoading ? (
-                        <div className="search-results">
-                            {businesses}
-                        </div>
-                    ) : (
-                        <div className="search-results">
-                            <div className="result">
-                                <div className="flex">
-                                    <Skeleton variant="circular" width={40} height={40}/>
-                                    <Skeleton variant="text"
-                                              sx={{width: '60px', fontSize: '.5rem', marginLeft: '10px'}}/>
+                    <div className="search-results">
+                        {!isLoading ? (
+                            businesses.length > 0 ? (
+                                businesses
+                            ) : (
+                                <div className='negative-search'>
+                                    <SentimentVeryDissatisfiedIcon fontSize='large'/>
+                                    <p>No business found</p>
                                 </div>
-                                <Skeleton variant="rounded" width={62} height={27} className="mt-2"/>
-                            </div>
-                            <div className="result">
-                                <div className="flex">
-                                    <Skeleton variant="circular" width={40} height={40}/>
-                                    <Skeleton variant="text"
-                                              sx={{width: '60px', fontSize: '.5rem', marginLeft: '10px'}}/>
+                            )
+                        ) : (
+                            <>
+                                <div className="result">
+                                    <div className="flex">
+                                        <Skeleton variant="circular" width={40} height={40}/>
+                                        <Skeleton variant="text"
+                                                  sx={{width: '60px', fontSize: '.5rem', marginLeft: '10px'}}/>
+                                    </div>
+                                    <Skeleton variant="rounded" width={62} height={27} className="mt-2"/>
                                 </div>
-                                <Skeleton variant="rounded" width={62} height={27} className="mt-2"/>
-                            </div>
-                        </div>
-                    )
+                                <div className="result">
+                                    <div className="flex">
+                                        <Skeleton variant="circular" width={40} height={40}/>
+                                        <Skeleton variant="text"
+                                                  sx={{width: '60px', fontSize: '.5rem', marginLeft: '10px'}}/>
+                                    </div>
+                                    <Skeleton variant="rounded" width={62} height={27} className="mt-2"/>
+                                </div>
+                            </>
+                        )}
+                    </div>
                 )}
+
             </div>
         </div>
 

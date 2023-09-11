@@ -6,12 +6,17 @@ import {Breadcrumbs, Chip, Grid, Rating} from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import axios from "axios";
+import AWS from "aws-sdk";
+import { S3Image } from 'react-s3';
 
 function AllBusinesses() {
+    const [imageKey, setImageKey] = useState('');
+    const [imgUrl, setImgUrl] = useState('');
     const token = localStorage.getItem('token');
     const [businesses, setBusinesses] = useState([]);
     const accountUsername = localStorage.getItem("username");
     const [fav, setFav] = useState(1)
+
     useEffect(() => {
 
         fetch('http://localhost:8888/api/v1/users/businesses', {
@@ -46,10 +51,10 @@ function AllBusinesses() {
     };
 
     function addFavorite(favoriteUsername) {
-        setFav(fav+1);
+        setFav(fav + 1);
         const url = 'http://localhost:8888/api/v1/users/addFavorite';
         const data = {accountUsername, favoriteUsername};
-        console.log("LOL"+accountUsername+" "+favoriteUsername);
+        console.log("LOL" + accountUsername + " " + favoriteUsername);
         axios.post(url, data, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -65,7 +70,7 @@ function AllBusinesses() {
         <div key={business.accountId} className="business-container">
             <Grid container>
                 <div className="business-image w-25">
-                    <img src={business.profileImgPath}/>
+                    <img src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${business.profileImgPath}`} />
                 </div>
                 <div className="business-info w-75">
                     <Grid container>

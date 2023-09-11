@@ -1,7 +1,7 @@
 .admin-auth-container{
     background-color: #ffffff;
-    width: 500px;
-    height: 500px;
+    width: 70vw;
+    height: auto;
     margin: auto;
     border-radius: 40px;
     display: flex;
@@ -13,4 +13,11 @@
 .adminLogin{
     padding-top: 120px;
     padding-left: 140px;
+}
+
+.img-cover{
+    position: absolute;
+    z-index: 100;
+    background-color: yellow;
+    height: 0;
 }

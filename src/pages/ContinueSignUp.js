@@ -83,8 +83,6 @@ function ContinueSignUp() {
                                 {activeStep !== steps.length - 1 ? <Button onClick={handleNext}>
                                     Next
                                 </Button> : ''}
-
-
                         </Box>
                     </React.Fragment>
                 </Box>

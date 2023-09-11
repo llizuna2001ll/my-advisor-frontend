@@ -2,7 +2,7 @@ import '../css/authentication.css';
 import {useState} from "react";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function AuthenticationContainer() {
     const [username, setUsername] = useState("");
@@ -18,7 +18,7 @@ function AuthenticationContainer() {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [phoneNumError, setPhoneNumError] = useState("");
-    var state = 1;
+    let state = 0;
     const navigate = useNavigate();
     const handleSignUp = async (event) => {
         event.preventDefault();
@@ -54,7 +54,7 @@ function AuthenticationContainer() {
     };
 
     const addToLocalStorage = (username) => {
-        fetch('http://localhost:8888/api/v1/users/' + username , {
+        fetch('http://localhost:8888/api/v1/users/' + username, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`,
                 'Content-Type': 'application/json'
@@ -90,10 +90,9 @@ function AuthenticationContainer() {
                     localStorage.setItem('authorities', JSON.stringify(authoritiesArray));
                     setSignInError("login successful");
                     addToLocalStorage(localStorage.getItem("username"));
-                    if(authoritiesArray.includes("ADMIN")){
+                    if (authoritiesArray.includes("ADMIN")) {
                         navigate("/dashboard");
-                    }
-                    else{
+                    } else {
                         navigate("/");
                     }
                 })
@@ -113,7 +112,7 @@ function AuthenticationContainer() {
         const loginForm = document.getElementsByClassName("login-form")[0];
         const signUpForm = document.getElementsByClassName("signup-form")[0];
 
-        if (state === 1) {
+        if (state == 1) {
             state = 0;
             cover.classList.add("img-reverse");
             img.classList.add("img-reverse");
@@ -190,6 +189,8 @@ function AuthenticationContainer() {
                         <div className="d-grid col-3 mx-auto">
                             <button type="submit" className="btn btn-primary auth-button">Sign Up</button>
                         </div>
+                        <Link to={"/register-business"}><p
+                            style={{marginLeft: '25%', marginTop: '2%', fontSize:"13px"}}>Create A Business Account</p></Link>
                     </form>
                 </div>
             </div>

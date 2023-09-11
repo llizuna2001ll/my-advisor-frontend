@@ -25,7 +25,7 @@ function AllCategoriesPage() {
         <div key={businessType.typeId} className="card allcities-container">
             <Link style={{fontSize: "30px", textDecoration: "none"}} to={`/categories/${businessType.typeName}`}>
                 <div className="card-body"><img style={{opacity: "100%"}} className="topcities-img" height="100px"
-                                                width="20%" src={businessType.imgPath}/> {businessType.typeName}</div>
+                                                width="20%" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${businessType.imgPath}`}/> {businessType.typeName}</div>
             </Link>
             <p>{businessType.businessCount} business available</p>
         </div>

@@ -145,9 +145,10 @@ function Chat(props) {
                 <div className="chat-header">
                     <Grid container>
                         <img
-                            className="me-4 mt-3 rounded-circle"
-                            src="../images/profilePics/izuna-test1.jpg"
+                            className="me-4 mt-2 rounded-circle"
+                            src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${props.userFromImg}`}
                             width="70"
+                            height="70"
                         />
                         <h2 className="profile-chat-name">{userFrom}</h2>
                     </Grid>

@@ -1,20 +1,19 @@
 import React from "react";
 import '../css/registerPage.css';
 import BubbleAnimation from "../components/BubbleAnimation";
-import AdminAuthenticationContainer from "../components/AdminAuthenticationContainer";
-import {useLocation} from "react-router-dom";
+import BusinessAuthenticationContainer from "../components/BusinessAuthenticationContainer";
 
-function AdminAuthPage() {
+function RegisterBusiness() {
 
 
     return (
         <div className="auth-body">
             <BubbleAnimation/>
             <div className="center">
-                <AdminAuthenticationContainer/>
+                <BusinessAuthenticationContainer/>
             </div>
         </div>
     );
 }
 
-export default AdminAuthPage;
+export default RegisterBusiness;

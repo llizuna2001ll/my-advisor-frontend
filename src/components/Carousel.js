@@ -23,7 +23,7 @@ function Carousel() {
         <div key={city.cityId} className="carousel-item active">
             <Link to={"/cities/" + city.name}>
                 <div style={{height:"100%",width:"100%",backgroundColor:"black",borderRadius:"10px"}}>
-                <img style={{opacity:"80%"}} src={city.imgPath} className="d-block w-100" alt={city.name}/>
+                <img style={{opacity:"80%"}} src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${city.imgPath}`} className="d-block w-100" alt={city.name}/>
                 </div>
                 <div className="carousel-caption d-none d-md-block">
                     <h5>{city.name}</h5>

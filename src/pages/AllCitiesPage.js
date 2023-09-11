@@ -26,7 +26,7 @@ function AllCitiesPage() {
         <div key={city.cityId} className="card allcities-container">
             <Link style={{fontSize: "30px", textDecoration: "none"}} to={`/cities/${city.name}`}>
                 <div className="card-body"><img style={{opacity: "100%"}} className="topcities-img" height="100px"
-                                                width="20%" src={city.imgPath}/> {city.name}</div>
+                                                width="20%" src={`https://myadvisorbucket.s3.eu-north-1.amazonaws.com/${city.imgPath}`}/> {city.name}</div>
             </Link>
             <p>{city.businessCount} business available</p>
         </div>
