@@ -1,0 +1,55 @@
+.filter-bar-container {
+    min-height: 450px;
+    background-color: #FFFFFF;
+    width: 20%;
+    border-radius: 5px;
+    margin: 5px;
+    position: relative;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.35);
+
+}
+
+
+
+/*.confirmFilter {
+    border: none;
+    outline: none;
+    height: 15%;
+    border-radius: 5px 5px 5px 5px;
+    width: 100%;
+    background-color: #A58BD5;
+    position: absolute;
+    bottom: 0;
+    box-shadow: 0 -1px 5px 0 rgba(0, 0, 0, 0.75);
+    transition: .1s ease-in;
+    font-weight: 500;
+    color: #F8F8F8;
+
+}*/
+
+.confirmFilter {
+    border: none;
+    outline: none;
+    height: 10%;
+    border-radius: 10px;
+    width: 70%;
+    background-color: #A58BD5;
+    position: absolute;
+    left: 15%;
+    bottom: 5px;
+    transition: .1s ease-in;
+    font-weight: 500;
+    color: #F8F8F8;
+
+}
+
+.confirmFilter:hover{
+    background-color: #9177c4;
+}
+
+.confirmFilter:active {
+    box-shadow: none;
+    transform: translateY(1px);
+    background-color: #866ab0;
+}
+

@@ -1,0 +1,106 @@
+.city-hero {
+    position: relative;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    box-shadow: 0 15px 15px -15px rgba(0, 0, 0, .2);
+    transition: .5s ease-in-out;
+    animation: translate;
+}
+
+.hero-img {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+    object-position: 0 -300px;
+    opacity: 40%;
+}
+
+.cityDescription {
+    margin-left: auto;
+    color: white;
+    font-weight: bolder;
+    font-size: 70px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.businesses-wrapper{
+    height: 470px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 110%;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+.businesses-wrapper::-webkit-scrollbar{
+    width: 5px;
+}
+.businesses-wrapper::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 5px rgba(134, 106, 176, 0.41);
+    border-radius: 5px;
+}
+
+.businesses-wrapper::-webkit-scrollbar-thumb{
+    background: #866ab0;
+    border-radius: 10px;
+}
+
+.business-container{
+    margin-right: 5px;
+    height: 220px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-top: 10px;
+    background-color: white;
+    box-shadow:  0 0 5px rgba(134, 106, 176, 0.41);
+    position: relative;
+    transition: .8s;
+}
+
+.business-unlike{
+    transform: translateX(-1500px);
+    opacity: 0;
+}
+
+.business-image{
+    height: 100%;
+}
+.business-image img{
+    width: 250px;
+    height: 220px;
+    object-fit: cover;
+}
+
+.business-info{
+    padding-top: 10px;
+}
+
+.business-city{
+    text-decoration: none;
+    color: black;
+}
+
+.business-type{
+    text-decoration: none;
+    color: black;
+}
+
+.rating-value{
+    position: absolute;
+    right: 20px;
+}
+
+.business-description{
+    font-size: 14px;
+}
+
+.see-more-abt-business{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+}
